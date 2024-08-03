@@ -15,8 +15,12 @@ store.Subscribe(customer2);
 // Add a product to the store
 store.AddProduct("iPhone");
 
+// add two observers
+orderService.AddObserver(ticketStockService);
+orderService.AddObserver(ticketResellerService);
 
-store.AddProduct("Samsung Galaxy");
+// notify
+orderService.CompleteTicketSale(1, 2);
 
 // Unsubscribe Customer 1
 store.Unsubscribe(customer1);
