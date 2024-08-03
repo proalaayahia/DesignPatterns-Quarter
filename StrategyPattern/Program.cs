@@ -18,24 +18,17 @@ while (true)
         Console.WriteLine("customer not found!");
         break;
     }
-    ICustomerDiscountStrategy strategy = null!;
-    switch (customer.Category)
+    ICustomerDiscountStrategy strategy = customer.Category switch
     {
-        case CustomerCategory.None:
-            strategy = new NewCustomerDiscountStrategy();
-            break;
-        case CustomerCategory.Gold:
-            strategy = new GoldCustomerDiscountStrategy();
-            break;
-        case CustomerCategory.Silver:
-            strategy = new SilverCustomerDiscountStrategy();
-            break;
-        default:
-            strategy = new NullDiscountStrategy();
-            break;
-    }
+        CustomerCategory.None => new NewCustomerDiscountStrategy(),
+        CustomerCategory.Gold => new GoldCustomerDiscountStrategy(),
+        CustomerCategory.Silver => new SilverCustomerDiscountStrategy(),
+        _ => new NullDiscountStrategy()
+    };
     var manager = new InvoiceManager();
     manager.SetDiscountStrategy(strategy);
     var invoice = manager.CreateInvoice(customer, quantity, price);
-    Console.WriteLine($"invoice created for customer `{customer.Name}` with net price = {invoice.NetPrice} ");
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine($"invoice created for customer `{customer.Name}` using `{strategy.GetType().Name}`  his net price = {invoice.NetPrice} ");
+    Console.ForegroundColor = ConsoleColor.White;
 }
