@@ -55,7 +55,8 @@ while (true)
         }
         else if (commandId == 4)
         {
-            MacroStorage.Instance.CreateMacro(invoker.Commands);
+            var commands = new List<ICommand>(invoker.Commands);
+            MacroStorage.Instance.CreateMacro(commands);
             invoker.ClearCommands();
         }
         else if (commandId == 5)

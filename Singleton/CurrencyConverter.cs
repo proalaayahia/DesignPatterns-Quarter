@@ -25,7 +25,7 @@ public class CurrencyConverter
     {
         get
         {
-            lock (_lock)//here we make safety control on our instance initialization
+            lock (_lock)
             {
                 if (_instance is null)
                 {
@@ -38,7 +38,7 @@ public class CurrencyConverter
 
     private void LoadExchangeRate()
     {
-        Thread.Sleep(3000); //waiting for 3 seconds to simulate heavy work
+        Thread.Sleep(3000); //simulation
         _exchangeRates =
         [
             new ExchangeRate("USD","SAR",4.75m),
@@ -49,8 +49,8 @@ public class CurrencyConverter
     public decimal Convert(string baseCurrency, string targetCurrency, decimal amount)
     {
         var exchangeRate = _exchangeRates.FirstOrDefault(rate =>
-        rate.BaseCurrency == baseCurrency &&
-        rate.TargetCurrency == targetCurrency
+        rate.BaseCurrency == baseCurrency.ToUpper() &&
+        rate.TargetCurrency == targetCurrency.ToUpper()
         );
         if (exchangeRate is null)
         {

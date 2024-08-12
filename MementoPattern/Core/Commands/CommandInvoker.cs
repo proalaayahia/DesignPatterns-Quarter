@@ -12,7 +12,8 @@ internal class CommandInvoker
     }
     public void ExecuteCommands()
     {
-        foreach (ICommand command in _commands)
+        var commands = new List<ICommand>(_commands);
+        foreach (ICommand command in commands)
         {
             ExecuteCommand(command);
         }
